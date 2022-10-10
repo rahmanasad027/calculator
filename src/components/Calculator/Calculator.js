@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import Keypad from "./keypad/numbers/Keypad";
+import Keypad from "./keypad/Numbers/Numbers";
 import Operators from "./keypad/operators/Operators";
 import Screen from "./screen/Screen";
 
@@ -16,38 +16,36 @@ const Calculator = () => {
         setNumber(number + e.target.name)
         setOp(e.target.name)
         setIsTrue(true)
+        if(e.target.name=== '='){
+            const num1 = number.substring(0,number.indexOf(op))
+            const num2 = number.substring(number.indexOf(op) +1)
+            switch(op){
+                case '+':
+                    setNumber(String(Number(num1) + Number(num2)))
+                break;
+                case '-':
+                    setNumber(String(Number(num1) - Number(num2)))
+                break;
+                case '*':
+                    setNumber(String(Number(num1) * Number(num2)))
+                break;
+                case '/':
+                    setNumber(String(Number(num1) / Number(num2)))
+                break;
+            }
+            setOp('')
+            setIsTrue(false)
+        }
     }
 
 const handleClear = () => {
     setNumber('')
 }
-
-const handleEqual = () => {
-    const num1 = number.substring(0,number.indexOf(op))
-    const num2 = number.substring(number.indexOf(op) +1)
-if(op==="+"){
-    setNumber(String(Number(num1) + Number(num2)))
-    setOp('')
-    setIsTrue(false)
-}if(op==="-"){
-    setNumber(String(Number(num1) - Number(num2)))
-    setOp('')
-    setIsTrue(false)
-}if(op==="*"){
-    setNumber(String(Number(num1) * Number(num2)))
-    setOp('')
-    setIsTrue(false)
-}if(op==="/"){
-    setNumber(String(Number(num1) / Number(num2)))
-    setOp('')
-    setIsTrue(false)
-}
-}
     return(
         <div>
 <Screen number = {number} />
 <Keypad  handleNumber={handleNumber} />
-<Operators handleOperator={handleOperator} handleEqual={handleEqual} handleClear={handleClear} />
+<Operators handleOperator={handleOperator} handleClear={handleClear} />
         </div>
     )
 }
